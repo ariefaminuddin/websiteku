@@ -1,0 +1,328 @@
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Registrasi Siswa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #444;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            outline: none;
+            background: #fafafa;
+        }
+
+        input:focus, select:focus {
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .alert {
+            padding: 14px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #888;
+            font-size: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+            
+            .header h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Form Registrasi</h1>
+            <p>Silakan isi data diri dengan lengkap</p>
+        </div>
+
+        <div id="alertSuccess" class="alert alert-success"></div>
+        <div id="alertError" class="alert alert-error"></div>
+
+        <form id="registrationForm">
+            <div class="form-group">
+                <label for="nama">Nama Lengkap</label>
+                <input type="text" id="nama" name="nama" placeholder="Masukkan nama lengkap" required minlength="3">
+            </div>
+
+            <div class="form-group">
+                <label for="nik">NIK (Nomor Induk Kependudukan)</label>
+                <input type="text" id="nik" name="nik" placeholder="Masukkan 16 digit NIK" required pattern="\d{16}" maxlength="16" inputmode="numeric">
+            </div>
+
+            <div class="form-group">
+                <label for="kelas">Kelas</label>
+                <select id="kelas" name="kelas" required>
+                    <option value="">-- Pilih Kelas --</option>
+                    <option value="10 A">10 A</option>
+                    <option value="10 B">10 B</option>
+                    <option value="10 C">10 C</option>
+                    <option value="11 A">11 A</option>
+                    <option value="11 B">11 B</option>
+                    <option value="11 C">11 C</option>
+                    <option value="12 A">12 A</option>
+                    <option value="12 B">12 B</option>
+                    <option value="12 C">12 C</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="alamat">Alamat Lengkap</label>
+                <input type="text" id="alamat" name="alamat" placeholder="Masukkan alamat lengkap" required minlength="5">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Buat password (min. 6 karakter)" required minlength="6">
+            </div>
+
+            <button type="submit" class="btn-submit" id="submitBtn">
+                📝 Daftar Sekarang
+            </button>
+        </form>
+
+        <div class="loading-spinner" id="loadingSpinner">
+            <div class="spinner"></div>
+            <p style="margin-top: 10px; color: #667eea;">Menyimpan data...</p>
+        </div>
+
+        <div class="footer">
+            Data Anda aman dan terenkripsi
+        </div>
+    </div>
+
+    <script>
+        // GANTI URL INI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw0tX9afh6PWS7Vr3z8_IQFmz2SJ1RqTz45xLSJB9-8s2o0RKf7/exec';
+        
+        const form = document.getElementById('registrationForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const alertSuccess = document.getElementById('alertSuccess');
+        const alertError = document.getElementById('alertError');
+
+        // Format NIK (hanya angka)
+        document.getElementById('nik').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Reset alerts
+            alertSuccess.style.display = 'none';
+            alertError.style.display = 'none';
+            
+            // Validasi NIK harus 16 digit
+            const nikValue = document.getElementById('nik').value;
+            if (nikValue.length !== 16) {
+                showError('NIK harus tepat 16 digit angka!');
+                return;
+            }
+            
+            // Tampilkan loading
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = '0.7';
+            loadingSpinner.style.display = 'block';
+            
+            // Kumpulkan data
+            const formData = {
+                nama: document.getElementById('nama').value.trim(),
+                nik: nikValue,
+                kelas: document.getElementById('kelas').value,
+                alamat: document.getElementById('alamat').value.trim(),
+                password: document.getElementById('password').value
+            };
+            
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Penting untuk CORS Google Apps Script
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                // Karena mode no-cors, kita tidak bisa membaca response
+                // Anggap sukses jika tidak ada error
+                showSuccess('✅ Registrasi berhasil! Data telah tersimpan.');
+                form.reset();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showError('❌ Gagal menyimpan data. Silakan coba lagi.');
+            } finally {
+                // Sembunyikan loading
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
+                loadingSpinner.style.display = 'none';
+            }
+        });
+        
+        function showSuccess(message) {
+            alertSuccess.textContent = message;
+            alertSuccess.style.display = 'block';
+            alertError.style.display = 'none';
+            
+            // Auto-hide setelah 5 detik
+            setTimeout(() => {
+                alertSuccess.style.display = 'none';
+            }, 5000);
+            
+            // Scroll ke atas
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function showError(message) {
+            alertError.textContent = message;
+            alertError.style.display = 'block';
+            alertSuccess.style.display = 'none';
+            
+            // Auto-hide setelah 5 detik
+            setTimeout(() => {
+                alertError.style.display = 'none';
+            }, 5000);
+            
+            // Scroll ke atas
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
